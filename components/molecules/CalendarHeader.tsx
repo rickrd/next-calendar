@@ -6,24 +6,24 @@ const CalendarHeader = () => {
   const weeklyDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   return (
     <CalendarHeaderWrapper>
-      <CalendarYears>
-        {years.map((year: string) => {
+      <HeaderRow>
+        {years.map((year: string, index: number) => {
           return (
-            <HeaderCellWrapper>
+            <HeaderCellWrapper key={index}>
               <HeaderCell type='year'> {year}</HeaderCell>
             </HeaderCellWrapper>
           )
         })}
-      </CalendarYears>
-      <CalendarWeeks>
-        {weeklyDays.map((weeklyDay: string) => {
+      </HeaderRow>
+      <HeaderRow>
+        {weeklyDays.map((weeklyDay: string, index: number) => {
           return (
-            <HeaderCellWrapper>
+            <HeaderCellWrapper key={index}>
               <HeaderCell type='week'>{weeklyDay}</HeaderCell>
             </HeaderCellWrapper>
           )
         })}
-      </CalendarWeeks>
+      </HeaderRow>
     </CalendarHeaderWrapper>
   )
 }
@@ -35,14 +35,7 @@ const CalendarHeaderWrapper = styled.div`
   justify-content: center;
 `
 
-const CalendarYears = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: space-around;
-  justify-content: center;
-`
-
-const CalendarWeeks = styled.div`
+const HeaderRow = styled.div`
   display: flex;
   flex-direction: row;
   align-items: space-around;
@@ -60,7 +53,7 @@ export interface HeaderCellParams {
 }
 
 const HeaderCell = styled.div`
-  padding: 1em;
+  padding: 2em;
   font-weight: ${({ type }: HeaderCellParams) => (type === 'week' ? 'bold' : 'normal')};
 `
 

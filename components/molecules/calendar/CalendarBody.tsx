@@ -3,7 +3,7 @@ import moment from 'moment'
 import styled from 'styled-components'
 import Link from 'next/link'
 
-const CalendarBody = () => {
+const CalendarBody = ({ setSelectedDate }) => {
   const [selectedYear, setSelectedYear] = useState<any>('2021')
   const [selectedMonth, setSelectedMonth] = useState<any>('04')
   const [selectedDay, setSelectedDay] = useState<any>('10')
@@ -27,6 +27,7 @@ const CalendarBody = () => {
       })
     )
   }
+
   console.log(calendar)
   return (
     <CalendarBodyWrapper>
@@ -36,9 +37,9 @@ const CalendarBody = () => {
             {calendarRow.map(({ dayLabel, date }) => {
               return (
                 <BodyCellWrapper>
-                  <Link href={`/calendar/${date}`}>
-                    <BodyCell today={date === moment(today).format('YYYY-MM-DD')}>{dayLabel}</BodyCell>
-                  </Link>
+                  <BodyCell today={date === moment(today).format('YYYY-MM-DD')} onClick={() => setSelectedDate(date)}>
+                    {dayLabel}
+                  </BodyCell>
                 </BodyCellWrapper>
               )
             })}

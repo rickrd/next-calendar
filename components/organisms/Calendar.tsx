@@ -1,13 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
-import CalendarHeader from '../molecules/CalendarHeader'
-import CalendarBody from '../molecules/CalendarBody'
+import CalendarHeader from '../molecules/calendar/CalendarHeader'
+import CalendarBody from '../molecules/calendar/CalendarBody'
 
-const Calendar = () => {
+const Calendar = ({ setSelectedDate }) => {
   return (
     <CalendarWrapper>
       <CalendarHeader />
-      <CalendarBody />
+      <CalendarBody setSelectedDate={setSelectedDate} />
     </CalendarWrapper>
   )
 }

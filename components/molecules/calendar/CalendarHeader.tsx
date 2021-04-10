@@ -7,19 +7,23 @@ const CalendarHeader = () => {
   return (
     <CalendarHeaderWrapper>
       <HeaderRow>
+        <HeaderCell bold padding='1em'>{`<`}</HeaderCell>
         {years.map((year: string, index: number) => {
           return (
             <HeaderCellWrapper key={index}>
-              <HeaderCell type='year'> {year}</HeaderCell>
+              <HeaderCell padding='1em'> {year}</HeaderCell>
             </HeaderCellWrapper>
           )
         })}
+        <HeaderCell bold padding='1em'>{`>`}</HeaderCell>
       </HeaderRow>
       <HeaderRow>
         {weeklyDays.map((weeklyDay: string, index: number) => {
           return (
             <HeaderCellWrapper key={index}>
-              <HeaderCell type='week'>{weeklyDay}</HeaderCell>
+              <HeaderCell bold={weeklyDay == 'Sun' || weeklyDay == 'Sat'} padding='0 7em 0 7em'>
+                {weeklyDay}
+              </HeaderCell>
             </HeaderCellWrapper>
           )
         })}
@@ -31,30 +35,25 @@ const CalendarHeader = () => {
 const CalendarHeaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: space-around;
-  justify-content: center;
+  justify-content: flex-end;
 `
 
 const HeaderRow = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: space-around;
-  justify-content: center;
+  justify-content: flex-end;
 `
 
-const HeaderCellWrapper = styled.div`
-  &:not(last-child) {
-    margin-right: 10em;
-  }
-`
+const HeaderCellWrapper = styled.div``
 
 export interface HeaderCellParams {
-  type: string
+  bold?: boolean
+  padding?: string
 }
 
 const HeaderCell = styled.div`
-  padding: 2em;
-  font-weight: ${({ type }: HeaderCellParams) => (type === 'week' ? 'bold' : 'normal')};
+  padding: ${({ padding }: HeaderCellParams) => (padding ? padding : 0)};
+  font-weight: ${({ bold = false }: HeaderCellParams) => (bold ? 'bold' : 'normal')};
 `
 
 export default CalendarHeader

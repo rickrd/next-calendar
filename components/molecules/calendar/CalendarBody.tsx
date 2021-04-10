@@ -1,44 +1,55 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import moment from 'moment'
 import styled from 'styled-components'
 import Link from 'next/link'
+
+const fillCalendar = (calendar: any[], setCalendar: any, selectedYear: any, selectedMonth: any, selectedDay: any) => {
+  const startDay = moment(`${selectedYear}-${selectedMonth}-${selectedDay}`).clone().startOf('month').startOf('week')
+  const endDay = moment(`${selectedYear}-${selectedMonth}-${selectedDay}`).clone().endOf('month').endOf('week')
+
+  let weeks = []
+
+  var index = startDay.clone().subtract(1, 'day')
+
+  while (index.isBefore(endDay, 'day')) {
+    weeks.push({
+      days: new Array(7).fill(0).map(() => {
+        return { label: index.add(1, 'day').clone().date().toString(), date: index.clone().format('YYYY-MM-DD') }
+      }),
+    })
+  }
+
+  setCalendar(weeks)
+}
 
 const CalendarBody = ({ setSelectedDate }) => {
   const [selectedYear, setSelectedYear] = useState<any>('2021')
   const [selectedMonth, setSelectedMonth] = useState<any>('04')
   const [selectedDay, setSelectedDay] = useState<any>('10')
-  console.log('moment year:', moment().year())
-  console.log('moment month:', moment().month())
-  console.log('moment day:', moment().day())
-  const startDay = moment(`${selectedYear}-${selectedMonth}-${selectedDay}`).clone().startOf('month').startOf('week')
-  console.log('startDay:', startDay.format('YYYY-MM-DD'))
-  const endDay = moment(`${selectedYear}-${selectedMonth}-${selectedDay}`).clone().endOf('month').endOf('week')
-  console.log('endDay:', endDay.format('YYYY-MM-DD'))
-  const today = moment().format('YYYY-MM-DD')
-  console.log('moment:', moment().format('YYYY-MM-DD'))
-  console.log('today:', today)
+  const [calendar, setCalendar] = useState<any>([])
 
-  var calendar = []
-  var index = startDay.clone()
-  while (index.isBefore(endDay, 'day')) {
-    calendar.push(
-      new Array(7).fill(0).map(() => {
-        return { dayLabel: index.add(1, 'day').date(), date: index.format('YYYY-MM-DD') }
-      })
-    )
-  }
+  const today = moment().format('YYYY-MM-DD')
+
+  useEffect(() => {
+    fillCalendar(calendar, setCalendar, selectedYear, selectedMonth, selectedDay)
+  }, [selectedYear, selectedMonth, selectedDay])
 
   console.log(calendar)
   return (
     <CalendarBodyWrapper>
-      {calendar.map((calendarRow) => {
+      {calendar.map((calendarRow: { days: any[] }, index: string | number) => {
         return (
-          <BodyRow>
-            {calendarRow.map(({ dayLabel, date }) => {
+          <BodyRow key={index}>
+            {calendarRow.days.map((day: { label: string; date: string }) => {
+              console.log(moment(day.date).day())
               return (
-                <BodyCellWrapper>
-                  <BodyCell today={date === moment(today).format('YYYY-MM-DD')} onClick={() => setSelectedDate(date)}>
-                    {dayLabel}
+                <BodyCellWrapper key={day.date}>
+                  <BodyCell
+                    color={day.date === moment(today).format('YYYY-MM-DD') ? 'red' : '#000'}
+                    background={moment(day.date).day() === 0 || moment(day.date).day() === 6 ? '#fafafa' : '#fff'}
+                    onClick={() => setSelectedDate(day.date)}
+                  >
+                    {day.label}
                   </BodyCell>
                 </BodyCellWrapper>
               )
@@ -60,17 +71,25 @@ const BodyRow = styled.div`
   flex-direction: row;
 `
 
-const BodyCellWrapper = styled.div``
+const BodyCellWrapper = styled.div`
+  width: fit-content;
+  height: fit-content;
+`
 
 export interface BodyCellParams {
-  today: boolean
+  color?: string
+  background?: string
 }
 
 const BodyCell = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   width: 15em;
-  height: 15em;
-  padding: 7em;
-  background-color: ${({ today }: BodyCellParams) => (today ? '#cecece' : '#fff')};
+  height: 10em;
+  background: ${({ background }: BodyCellParams) => (background ? background : '#fff')};
+  color: ${({ color }: BodyCellParams) => (color ? color : '#000')};
   border-top: 1px solid #ddd;
   border-right: 1px solid #ddd;
 `

@@ -31,7 +31,7 @@ const ReminderForm = ({ type }) => {
 
   return isModalVisible ? (
     <ReminderFormWrapper style={{ top: `${modalPosition.top}px`, left: `${modalPosition.left}px` }} draggable={true}>
-      <nav style={{ borderBottom: '1px solid lightgrey', marginBottom: '0.5em' }} draggable={true} onDragEnd={(e) => handleModalDrag(e, setModalPosition)}>
+      <nav style={{ borderBottom: '1px solid lightgrey', marginBottom: '0.5em', cursor: 'dragging'}} draggable={true} onDragEnd={(e) => handleModalDrag(e, setModalPosition)}>
         <h2 style={{ marginTop: '0', marginBottom: '0.5em', textAlign: 'center', paddingTop: '1em' }}>New reminder</h2>
         <Button style={{ position: 'absolute', top: '0.5em', right: '0.5em' }} onClick={() => dispatch(setReminderFormVisibility(false))} children={'X'} />
       </nav>

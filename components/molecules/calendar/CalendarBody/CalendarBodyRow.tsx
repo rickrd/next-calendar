@@ -1,8 +1,12 @@
 import React from 'react'
 import moment from 'moment'
 import { CalendarBodyCell, CalendarBodyCellWrapper, CalendarBodyRowWrapper } from '../../../../styles/calendar/CalendarBody'
+import { useDispatch } from 'react-redux'
+import { setSelectedDate } from '../../../../store/actions/calendar'
 
-const CalendarBodyRow = ({ calendarRow, today, setSelectedDate }) => {
+const CalendarBodyRow = ({ calendarRow, today }) => {
+  const dispatch = useDispatch()
+
   return (
     <CalendarBodyRowWrapper>
       {calendarRow.days.map((day: { label: string; date: string }) => {
@@ -13,7 +17,7 @@ const CalendarBodyRow = ({ calendarRow, today, setSelectedDate }) => {
               color={day.date === moment(today).format('YYYY-MM-DD') ? 'red' : '#000'}
               background={moment(day.date).day() === 0 || moment(day.date).day() === 6 ? '#fafafa' : '#fff'}
               onClick={() => {
-                setSelectedDate(day.date)
+                dispatch(setSelectedDate(day.date))
               }}
             >
               {day.label}

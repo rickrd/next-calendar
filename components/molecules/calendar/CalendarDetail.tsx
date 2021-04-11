@@ -4,12 +4,13 @@ import { connect } from 'react-redux'
 import { Reminder } from '../../../types/reminder'
 import { CalendarDetailWrapper, SelectedDateWrapper } from '../../../styles/calendar/CalendarDetail'
 
-const CalendarDetail = ({ date, reminders }) => {
+const CalendarDetail = ({ reminders, calendar }) => {
   console.log(reminders)
-  const filteredReminders = reminders.filter((reminder: Reminder) => reminder.date === date)
-  return moment(date).isValid() ? (
+  console.log('calendar state:', calendar)
+  const filteredReminders = reminders.filter((reminder: Reminder) => reminder.date === calendar.selectedDate)
+  return moment(calendar?.selectedDate).isValid() ? (
     <CalendarDetailWrapper>
-      <SelectedDateWrapper>Selected date: {date}</SelectedDateWrapper>
+      <SelectedDateWrapper>Selected date: {calendar?.selectedDate}</SelectedDateWrapper>
       <p>Reminders length: {filteredReminders.length}</p>
       {filteredReminders.length ? (
         filteredReminders.map((reminder: Reminder) => {
@@ -32,6 +33,7 @@ const CalendarDetail = ({ date, reminders }) => {
 const mapStateToProps = (state: any) => {
   return {
     reminders: state.reminders.reminders,
+    calendar: state.calendar,
   }
 }
 

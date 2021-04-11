@@ -13,6 +13,7 @@ const CalendarHeader = () => {
   const dispatch = useDispatch()
 
   const reminders = useSelector((state: any) => state.reminders.reminders)
+  const selectedDate = useSelector((state: any) => state.calendar.selectedDate)
 
   return (
     <CalendarHeaderWrapper>
@@ -20,7 +21,7 @@ const CalendarHeader = () => {
         <Button
           children={'Add reminder'}
           onClick={() => {
-            dispatch(addReminder({ id: reminders.length + 1, title: 'test title', description: 'test description', date: '2021-04-10', city: 'Florianopolis' }))
+            dispatch(addReminder({ id: reminders.length + 1, title: 'test title', description: 'test description', date: selectedDate, city: 'Florianopolis' }))
           }}
         ></Button>
         <CalendarHeaderYears years={years} />

@@ -17,7 +17,6 @@ const CalendarBody = () => {
     fillCalendar(setCalendar, selectedYear, selectedMonth, selectedDay)
   }, [selectedYear, selectedMonth, selectedDay])
 
-  console.log(calendar)
   return (
     <CalendarBodyWrapper>
       {calendar.map((calendarRow: { days: any[] }, index: string | number) => {

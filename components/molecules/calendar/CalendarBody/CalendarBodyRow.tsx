@@ -13,8 +13,7 @@ const CalendarBodyRow = ({ calendarRow, today }) => {
     <CalendarBodyRowWrapper>
       {calendarRow.days.map((day: { label: string; date: string }) => {
         const reminders = useSelector((state: { reminders: { reminders: { title: string; date: string }[] } }) => state.reminders.reminders)
-        const filteredReminders = reminders.filter(({ date }) => date === day.date)
-        console.log(moment(day.date).day())
+        const filteredReminders = reminders.filter(({ date }) => moment(date).format('YYYY-MM-DD') === day.date)
         return (
           <CalendarBodyCellWrapper key={day.date}>
             <CalendarBodyCell

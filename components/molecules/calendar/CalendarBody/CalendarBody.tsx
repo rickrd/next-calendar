@@ -3,6 +3,7 @@ import moment from 'moment'
 import { CalendarBodyWrapper } from '../../../../styles/calendar/CalendarBody'
 import { fillCalendar } from './utils'
 import CalendarBodyRow from './CalendarBodyRow'
+import { useSelector } from 'react-redux'
 
 const CalendarBody = () => {
   const [selectedYear, setSelectedYear] = useState<any>('2021')

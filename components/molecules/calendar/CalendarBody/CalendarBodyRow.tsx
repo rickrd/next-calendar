@@ -1,8 +1,10 @@
 import React from 'react'
 import moment from 'moment'
 import { CalendarBodyCell, CalendarBodyCellWrapper, CalendarBodyRowWrapper } from '../../../../styles/calendar/CalendarBody'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setSelectedDate } from '../../../../store/actions/calendar'
+import CalendarReminderList from './CalendarReminderList'
+import { setReminderFormVisibility } from '../../../../store/actions/reminders'
 
 const CalendarBodyRow = ({ calendarRow, today }) => {
   const dispatch = useDispatch()
@@ -10,6 +12,8 @@ const CalendarBodyRow = ({ calendarRow, today }) => {
   return (
     <CalendarBodyRowWrapper>
       {calendarRow.days.map((day: { label: string; date: string }) => {
+        const reminders = useSelector((state: { reminders: { reminders: { title: string; date: string }[] } }) => state.reminders.reminders)
+        const filteredReminders = reminders.filter(({ date }) => date === day.date)
         console.log(moment(day.date).day())
         return (
           <CalendarBodyCellWrapper key={day.date}>
@@ -19,8 +23,10 @@ const CalendarBodyRow = ({ calendarRow, today }) => {
               onClick={() => {
                 dispatch(setSelectedDate(day.date))
               }}
+              onDoubleClick={() => dispatch(setReminderFormVisibility(true))}
             >
               {day.label}
+              {filteredReminders.length ? <CalendarReminderList style={{ listStyle: 'none' }} childrens={filteredReminders} /> : null}
             </CalendarBodyCell>
           </CalendarBodyCellWrapper>
         )

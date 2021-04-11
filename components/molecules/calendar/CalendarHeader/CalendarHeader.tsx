@@ -1,7 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setModalVisibility } from '../../../../store/actions/calendar'
-import { addReminder } from '../../../../store/actions/reminders'
+import { setReminderFormVisibility, setReminderFormType } from '../../../../store/actions/reminders'
 import { CalendarHeaderWrapper, CalendarHeaderRow } from '../../../../styles/calendar/CalendarHeader'
 import Button from '../../../atoms/Button'
 import CalendarHeaderWeeks from './CalendarHeaderWeeks'
@@ -15,14 +14,16 @@ const CalendarHeader = () => {
 
   const reminders = useSelector((state: any) => state.reminders.reminders)
   const selectedDate = useSelector((state: any) => state.calendar.selectedDate)
-  const isModalVisible = useSelector((state: any) => state.calendar.isModalVisible)
+  const isModalVisible = useSelector((state: any) => state.reminders.isModalVisible)
   return (
     <CalendarHeaderWrapper>
       <CalendarHeaderRow>
         <Button
-          children={'Add reminder'}
+          style={{ border: '1px solid lightgrey' }}
+          children={'New reminder'}
           onClick={() => {
-            dispatch(setModalVisibility(!isModalVisible))
+            dispatch(setReminderFormVisibility(!isModalVisible))
+            dispatch(setReminderFormType('create'))
           }}
         ></Button>
         <CalendarHeaderYears years={years} />

@@ -5,6 +5,7 @@ export const CalendarWrapper = styled.div`
   flex-direction: column;
   align-items: flex-end;
   justify-content: flex-end;
+  padding-top: 0.5em;
 `
 
 export const CalendarFlexRow = styled.div`

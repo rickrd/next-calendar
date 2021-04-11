@@ -17,14 +17,15 @@ const CalendarBodyRow = ({ calendarRow, today }) => {
         return (
           <CalendarBodyCellWrapper key={day.date}>
             <CalendarBodyCell
-              color={day.date === moment(today).format('YYYY-MM-DD') ? 'red' : '#000'}
+              color={day.date === moment(today).format('YYYY-MM-DD') ? '#fff' : '#000'}
               background={moment(day.date).day() === 0 || moment(day.date).day() === 6 ? '#fafafa' : '#fff'}
               onClick={() => {
                 dispatch(setSelectedDate(day.date))
               }}
               onDoubleClick={() => dispatch(setReminderFormVisibility(true))}
             >
-              {day.label}
+              <span style={{ backgroundColor: day.date === moment(today).format('YYYY-MM-DD') ? 'indianred' : 'unset', padding: '0.4em 0.8em'}}>{day.label}</span>
+
               {filteredReminders.length ? <CalendarReminderList style={{ listStyle: 'none' }} childrens={filteredReminders} /> : null}
             </CalendarBodyCell>
           </CalendarBodyCellWrapper>

@@ -11,12 +11,15 @@ const CalendarDetail = ({ reminders, calendar }) => {
   const dispatch = useDispatch()
   return moment(calendar?.selectedDate).isValid() ? (
     <CalendarDetailWrapper>
-      <SelectedDateWrapper>Selected date: {calendar?.selectedDate}</SelectedDateWrapper>
-      <p>Reminders length: {filteredReminders.length}</p>
+      <SelectedDateWrapper>
+        <div style={{ color: 'indianred' }}>{moment(calendar?.selectedDate).format('LL')}</div>
+      </SelectedDateWrapper>
+      <p>Reminders for this day: {filteredReminders.length}</p>
       {filteredReminders.length ? (
         filteredReminders.map(({ id, title, description, city, date }: Reminder) => {
           return (
             <ReminderListFlag
+              key={id}
               reminder={{ id, title, description, city, date }}
               onClick={() => {
                 console.log({ id, title, description, city, date })
@@ -28,7 +31,7 @@ const CalendarDetail = ({ reminders, calendar }) => {
           )
         })
       ) : (
-        <p>Reminder length: 0</p>
+        <p>Try creating a new reminder.</p>
       )}
     </CalendarDetailWrapper>
   ) : (

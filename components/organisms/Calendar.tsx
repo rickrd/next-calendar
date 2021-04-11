@@ -20,7 +20,7 @@ const Calendar = ({ reminders, selectedDate, isModalVisible }) => {
     <CalendarWrapper>
       <CalendarFlexRow>
         <Button
-          style={{ border: '1px solid lightgrey' }}
+          style={{ border: '1px solid lightgrey', outline: 'none', cursor: 'pointer' }}
           children={'New reminder'}
           onClick={() => {
             if (!isModalVisible) dispatch(setReminderFormVisibility(true))

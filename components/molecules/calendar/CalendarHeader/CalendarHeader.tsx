@@ -23,7 +23,6 @@ const CalendarHeader = () => {
           children={'Add reminder'}
           onClick={() => {
             dispatch(setModalVisibility(!isModalVisible))
-            dispatch(addReminder({ id: reminders.length + 1, title: 'test title', description: 'test description', date: selectedDate, city: 'Florianopolis' }))
           }}
         ></Button>
         <CalendarHeaderYears years={years} />

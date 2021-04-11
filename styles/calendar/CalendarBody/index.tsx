@@ -19,8 +19,8 @@ export const CalendarBodyCellWrapper = styled.div`
 export const CalendarBodyCell = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-end;
   width: 15em;
   height: 10em;
   background: ${({ background }: CalendarBodyCellParams) => (background ? background : '#fff')};

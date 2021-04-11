@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import Calendar from '../components/organisms/Calendar'
-import styled from 'styled-components'
 import CalendarDetail from '../components/molecules/calendar/CalendarDetail'
 import moment from 'moment'
+import { CalendarPageWrapper } from '../styles/calendar/CalendarPage'
 
 const CalendarPage = () => {
   const [selectedDate, setSelectedDate] = useState<any>(moment().format('YYYY-MM-DD'))
@@ -13,12 +13,5 @@ const CalendarPage = () => {
     </CalendarPageWrapper>
   )
 }
-
-const CalendarPageWrapper = styled.div`
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-end;
-  padding-left: 1em;
-`
 
 export default CalendarPage

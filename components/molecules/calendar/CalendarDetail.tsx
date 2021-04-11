@@ -1,33 +1,33 @@
 import React from 'react'
-import styled from 'styled-components'
 import moment from 'moment'
 import { connect } from 'react-redux'
-import { addReminder } from '../../../store/actions/reminders'
+import { Reminder } from '../../../types/reminder'
+import { CalendarDetailWrapper, SelectedDateWrapper } from '../../../styles/calendar/CalendarDetail'
 
-const CalendarDetail = ({ date, reminders, dispatch }) => {
+const CalendarDetail = ({ date, reminders }) => {
   console.log(reminders)
-  if (reminders.length < 5) {
-    console.log('entered if')
-    dispatch(addReminder({ id: 1, title: 'test title', date: new Date('2021-04-10'), city: 'Florianopolis' }))
-  }
+  const filteredReminders = reminders.filter((reminder: Reminder) => reminder.date === date)
   return moment(date).isValid() ? (
     <CalendarDetailWrapper>
-      <p>Reminders</p>
-      <SelectedDateWrapper>A data escolhida foi {date}</SelectedDateWrapper>
+      <SelectedDateWrapper>Selected date: {date}</SelectedDateWrapper>
+      <p>Reminders length: {filteredReminders.length}</p>
+      {filteredReminders.length ? (
+        filteredReminders.map((reminder: Reminder) => {
+          return (
+            <div>
+              <div>{reminder.title}</div>
+              <div>{reminder.city}</div>
+            </div>
+          )
+        })
+      ) : (
+        <p>Reminder length: 0</p>
+      )}
     </CalendarDetailWrapper>
   ) : (
     <p>Not a valid date.</p>
   )
 }
-
-const CalendarDetailWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-
-const SelectedDateWrapper = styled.div`
-  display: flex;
-`
 
 const mapStateToProps = (state: any) => {
   return {

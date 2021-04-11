@@ -1,7 +1,7 @@
 import React from 'react'
-import styled from 'styled-components'
-import CalendarHeader from '../molecules/calendar/CalendarHeader'
-import CalendarBody from '../molecules/calendar/CalendarBody'
+import CalendarHeader from '../molecules/calendar/CalendarHeader/CalendarHeader'
+import CalendarBody from '../molecules/calendar/CalendarBody/CalendarBody'
+import { CalendarWrapper } from '../../styles/calendar'
 
 const Calendar = ({ setSelectedDate }) => {
   return (
@@ -13,10 +13,3 @@ const Calendar = ({ setSelectedDate }) => {
 }
 
 export default Calendar
-
-const CalendarWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: flex-end;
-`

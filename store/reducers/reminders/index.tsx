@@ -5,7 +5,7 @@ const initialState = {
   reminders: [],
 }
 
-const reducer = (state = initialState, action: { type: any; payload: { reminder: any } }) => {
+const reducer = (state = initialState, action: { type: any; payload: any }) => {
   switch (action.type) {
     case HYDRATE:
       return { ...state, ...action.payload }

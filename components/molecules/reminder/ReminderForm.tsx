@@ -1,24 +1,53 @@
 import React, { useEffect, useState } from 'react'
 import { connect, useDispatch, useSelector } from 'react-redux'
 import moment, { HTML5_FMT } from 'moment'
-import { addReminder, setReminder, setReminderFormVisibility } from '../../../store/actions/reminders'
+import { addReminder, setReminder, setReminderForecast, setReminderFormVisibility } from '../../../store/actions/reminders'
 import { ReminderFormWrapper, ReminderFormBody } from '../../../styles/reminder/ReminderForm'
 import Button from '../../atoms/Button'
 import FormInput from '../../atoms/FormInput'
 import FormLabel from '../../atoms/FormLabel'
 import { Dispatch } from 'redux'
+import doRequest from '../../../services/request'
+import { getCityGeocode } from '../../../hooks/city'
+import { getWeatherByLatLon } from '../../../hooks/weather'
+import { parseForecast } from './utils/forecast'
 
 const clearInputs = (inputArray: any[]) => {
   inputArray.length && inputArray.map((setInput) => setInput(''))
 }
 
 const handleFormSubmit = (data: { id: number; title: string; description: string; date: string; city: string }, reminders: any[], dispatch: Dispatch<any>, type: string, inputArray: any[]) => {
-  if (type === 'create') {
-    dispatch(addReminder({ id: reminders.length + 1, title: data.title, description: data.description, date: moment(data.date).format(moment.HTML5_FMT.DATETIME_LOCAL), city: data.city }))
-    clearInputs(inputArray)
-  } else if (type === 'update') {
-    dispatch(setReminder(data.id, data))
-  }
+  let reminderForecast
+  ;(async () => {
+    const citySearchResult = await getCityGeocode(data.city)
+
+    if (citySearchResult.status === 'OK') {
+      const forecastData = await parseForecast(citySearchResult, data)
+      console.log(forecastData)
+      if (Object.keys(forecastData).length) {
+        console.log('forecast is true')
+        reminderForecast = forecastData
+      } else reminderForecast = { data: {}, forecastDescription: 'No forecast found', forecastDate: '', forecastIcon: '' }
+    } else reminderForecast = { data: {}, forecastDescription: 'No city found', forecastDate: '', forecastIcon: '' }
+
+    if (type === 'create') {
+      dispatch(
+        addReminder({
+          id: reminders.length + 1,
+          title: data.title,
+          description: data.description,
+          date: moment(data.date).format(moment.HTML5_FMT.DATETIME_LOCAL),
+          city: data.city,
+          forecastData: reminderForecast,
+        })
+      )
+      ;(async () => {})()
+
+      clearInputs(inputArray)
+    } else if (type === 'update') {
+      dispatch(setReminder(data.id, data))
+    }
+  })()
 }
 
 const handleModalDrag = (e: React.DragEvent<HTMLElement>, setModalPosition: { (value: any): void; (arg0: { top: any; right: any }): void }) => {

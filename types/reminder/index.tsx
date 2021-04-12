@@ -4,4 +4,5 @@ export interface Reminder {
   description: string
   date: string
   city: string
+  forecastData?: any
 }

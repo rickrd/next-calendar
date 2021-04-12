@@ -21,8 +21,8 @@ export const CalendarBodyCell = styled.div`
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-end;
-  width: 15em;
-  height: 10em;
+  width: 14em;
+  height: 9.32em;
   background: ${({ background }: CalendarBodyCellParams) => (background ? background : '#fff')};
   color: ${({ color }: CalendarBodyCellParams) => (color ? color : '#000')};
   border-top: 1px solid #ddd;

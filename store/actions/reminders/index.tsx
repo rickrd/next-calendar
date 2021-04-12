@@ -1,4 +1,4 @@
-import { ADD_REMINDER, SET_REMINDER, SET_REMINDER_FORM_VISIBILITY, SET_REMINDER_FORM_TYPE, SET_REMINDER_FORM_INITIAL_VALUES } from '../'
+import { ADD_REMINDER, SET_REMINDER, SET_REMINDER_FORM_VISIBILITY, SET_REMINDER_FORM_TYPE, SET_REMINDER_FORM_INITIAL_VALUES, SET_REMINDER_FORECAST } from '../'
 import { Reminder } from '../../../types/reminder'
 
 export const addReminder = (reminder: Reminder) => ({
@@ -9,6 +9,18 @@ export const addReminder = (reminder: Reminder) => ({
 export const setReminder = (id: number, reminder: Reminder) => ({
   type: SET_REMINDER,
   payload: { id, reminder },
+})
+
+export interface ForecastData {
+  data: any
+  forecastIcon: string
+  forecastDescription: string
+  forecastDate: string
+}
+
+export const setReminderForecast = (id: number, forecastData: ForecastData) => ({
+  type: SET_REMINDER_FORECAST,
+  payload: { id, forecastData },
 })
 
 export const setReminderFormVisibility = (isModalVisible: boolean) => ({

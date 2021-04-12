@@ -9,8 +9,8 @@ export interface CalendarReminderListParams {
 const CalendarReminderList = ({ childrens, style }: CalendarReminderListParams) => {
   return (
     <ul style={style}>
-      {childrens.map(({ title }) => (
-        <CalendarReminderFlag title={title} color={'lightgreen'} />
+      {childrens.map(({ title }, index) => (
+        <CalendarReminderFlag key={index} title={title} color={'lightgreen'} />
       ))}
     </ul>
   )

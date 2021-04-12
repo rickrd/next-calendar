@@ -16,7 +16,13 @@ const clearInputs = (inputArray: any[]) => {
   inputArray.length && inputArray.map((setInput) => setInput(''))
 }
 
-const handleFormSubmit = (data: { id: number; title: string; description: string; date: string; city: string }, reminders: any[], dispatch: Dispatch<any>, type: string, inputArray: any[]) => {
+const handleFormSubmit = (
+  data: { id: number; title: string; description: string; date: string; time: string; city: string },
+  reminders: any[],
+  dispatch: Dispatch<any>,
+  type: string,
+  inputArray: any[]
+) => {
   let reminderForecast
   ;(async () => {
     const citySearchResult = await getCityGeocode(data.city)
@@ -31,12 +37,14 @@ const handleFormSubmit = (data: { id: number; title: string; description: string
     } else reminderForecast = { data: {}, forecastDescription: 'No city found', forecastDate: '', forecastIcon: '' }
 
     if (type === 'create') {
+      console.log(data.time)
       dispatch(
         addReminder({
           id: reminders.length + 1,
           title: data.title,
           description: data.description,
-          date: moment(data.date).format(moment.HTML5_FMT.DATETIME_LOCAL),
+          date: data.date,
+          time: data.time,
           city: data.city,
           forecastData: reminderForecast,
         })
@@ -45,7 +53,7 @@ const handleFormSubmit = (data: { id: number; title: string; description: string
 
       clearInputs(inputArray)
     } else if (type === 'update') {
-      dispatch(setReminder(data.id, data))
+      dispatch(setReminder(data.id, { ...data, forecastData: reminderForecast }))
     }
   })()
 }
@@ -62,6 +70,7 @@ const ReminderForm = ({ type, reminders, reminderFormInitialValues, isModalVisib
   const [inputTitle, setInputTitle] = useState<string>(reminderFormInitialValues.inputTitle)
   const [inputDescription, setInputDescription] = useState<string>(reminderFormInitialValues.inputDescription)
   const [inputDate, setInputDate] = useState<string>(reminderFormInitialValues.inputDate)
+  const [inputTime, setInputTime] = useState<string>(reminderFormInitialValues.inputTime)
   const [inputCity, setInputCity] = useState<string>(reminderFormInitialValues.inputCity)
   const [isFormDisabled, setIsFormDisabled] = useState<boolean>(true)
 
@@ -72,13 +81,14 @@ const ReminderForm = ({ type, reminders, reminderFormInitialValues, isModalVisib
     setInputTitle(reminderFormInitialValues.inputTitle)
     setInputDescription(reminderFormInitialValues.inputDescription)
     setInputDate(reminderFormInitialValues.inputDate)
+    setInputTime(reminderFormInitialValues.inputTime)
     setInputCity(reminderFormInitialValues.inputCity)
   }, [reminderFormInitialValues])
 
   useEffect(() => {
-    if (!inputTitle || !inputDescription || !inputDate || !inputCity) setIsFormDisabled(true)
+    if (!inputTitle || !inputDescription || !inputDate || !inputTime || !inputCity) setIsFormDisabled(true)
     else setIsFormDisabled(false)
-  }, [inputTitle, inputDescription, inputDate, inputCity])
+  }, [inputTitle, inputDescription, inputDate, inputTime, inputCity])
 
   return isModalVisible ? (
     <ReminderFormWrapper style={{ top: `${modalPosition.top}px`, left: `${modalPosition.left}px` }}>
@@ -102,12 +112,20 @@ const ReminderForm = ({ type, reminders, reminderFormInitialValues, isModalVisib
         <FormInput
           id='date'
           name='date'
-          placeholder='date'
-          type='datetime-local'
-          value={moment(inputDate).format(moment.HTML5_FMT.DATETIME_LOCAL)}
+          type='date'
+          value={moment(inputDate, 'YYYY-MM-DD').format(moment.HTML5_FMT.DATE)}
           onChange={(e: { target: { value: React.SetStateAction<string> } }) => {
-            console.log(moment(e.target.value.toString()).format(HTML5_FMT.DATETIME_LOCAL))
-            setInputDate(moment(e.target.value.toString()).format(HTML5_FMT.DATETIME_LOCAL))
+            setInputDate(moment(e.target.value.toString(), 'YYYY-MM-DD').format(HTML5_FMT.DATE))
+          }}
+        />
+        <FormInput
+          id='time'
+          name='time'
+          type='time'
+          value={moment(inputTime, 'HH:mm').format(moment.HTML5_FMT.TIME)}
+          onChange={(e: { target: { value: React.SetStateAction<string> } }) => {
+            console.log(e.target.value)
+            setInputTime(moment(e.target.value.toString(), 'HH:mm').format(HTML5_FMT.TIME))
           }}
         />
         <FormLabel label='City' />
@@ -115,10 +133,11 @@ const ReminderForm = ({ type, reminders, reminderFormInitialValues, isModalVisib
         <Button
           style={{ maxWidth: '30em', border: '1px solid lightgrey', marginTop: '1em', cursor: isFormDisabled ? 'not-allowed' : 'pointer' }}
           onClick={() =>
-            handleFormSubmit({ id: inputId, title: inputTitle, description: inputDescription, date: inputDate, city: inputCity }, reminders, dispatch, type, [
+            handleFormSubmit({ id: inputId, title: inputTitle, description: inputDescription, date: inputDate, time: inputTime, city: inputCity }, reminders, dispatch, type, [
               setInputTitle,
               setInputDescription,
               setInputDate,
+              setInputTime,
               setInputCity,
             ])
           }

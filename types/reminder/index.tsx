@@ -3,6 +3,7 @@ export interface Reminder {
   title: string
   description: string
   date: string
+  time: string
   city: string
   forecastData?: any
 }

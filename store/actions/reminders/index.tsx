@@ -38,6 +38,7 @@ export interface ReminderFormInitialValues {
   inputTitle: string
   inputDescription: string
   inputDate: string
+  inputTime: string
   inputCity: string
 }
 

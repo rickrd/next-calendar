@@ -10,6 +10,7 @@ import { setReminderFormInitialValues, setReminderFormType, setReminderFormVisib
 const CalendarDetail = ({ reminders, calendar }) => {
   const filteredReminders = reminders.filter((reminder: Reminder) => moment(reminder.date).format('YYYY-MM-DD') === calendar.selectedDate)
   const dispatch = useDispatch()
+  console.log(filteredReminders)
   return moment(calendar?.selectedDate).isValid() ? (
     <CalendarDetailWrapper>
       <SelectedDateWrapper>
@@ -18,14 +19,14 @@ const CalendarDetail = ({ reminders, calendar }) => {
       <p>Reminders for this day: {filteredReminders.length}</p>
       <ReminderListWrapper>
         {filteredReminders.length ? (
-          filteredReminders.map(({ id, title, description, city, date, forecastData }: Reminder) => {
+          filteredReminders.map(({ id, title, description, city, date, time, forecastData }: Reminder) => {
             return (
               <ReminderListFlag
                 key={id}
-                reminder={{ title, description, city, date, forecastData }}
+                reminder={{ title, description, city, date, time, forecastData }}
                 onClick={() => {
                   console.log({ id, title, description, city, date })
-                  dispatch(setReminderFormInitialValues({ inputId: id, inputTitle: title, inputDescription: description, inputCity: city, inputDate: date }))
+                  dispatch(setReminderFormInitialValues({ inputId: id, inputTitle: title, inputDescription: description, inputCity: city, inputDate: date, inputTime: time }))
                   dispatch(setReminderFormType('update'))
                   dispatch(setReminderFormVisibility(true))
                 }}

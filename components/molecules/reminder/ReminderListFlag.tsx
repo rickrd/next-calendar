@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import moment from 'moment'
+import moment, { HTML5_FMT } from 'moment'
 import styled from 'styled-components'
 import { ReminderListFlagWrapper } from '../../../styles/reminder/ReminderList'
 import doRequest from '../../../services/request'
@@ -11,6 +11,7 @@ const ReminderListFlag = ({
     description,
     city,
     date,
+    time,
     forecastData: { forecastDescription, forecastDate, forecastIcon },
   },
   onClick,
@@ -20,26 +21,32 @@ const ReminderListFlag = ({
       <ReminderFlagCol>
         <ReminderFlagRow>
           <div style={{ fontSize: '21px', fontWeight: 'bold', marginRight: '1em' }}>{title}</div>
-          <div style={{ fontSize: '19px', fontWeight: 'bold', color: 'indianred' }}>{moment(date).format('LT')}</div>
+          <div style={{ fontSize: '19px', fontWeight: 'bold', color: 'indianred' }}>{moment(time, 'HH:mm').format(HTML5_FMT.TIME)}</div>
         </ReminderFlagRow>
       </ReminderFlagCol>
       <ReminderFlagCol>
         <ReminderFlagRow>
-          <div>{description}</div>
-          <div>{city}</div>
+          <div style={{ fontSize: '21px', fontWeight: 'bold', marginRight: '1em' }}>{description}</div>
+          <div style={{ fontSize: '19px', fontWeight: 'bold', color: 'indianred' }}>{city}</div>
         </ReminderFlagRow>
       </ReminderFlagCol>
-      <div>forecast description: {forecastDescription}</div>
-      <div>closest forecast date: {forecastDate}</div>
-      <div>
-        {forecastIcon !== '' ? (
-          <ForecastIconWrapper>
-            <img src={forecastIcon} width='50px' height='50px' />
-          </ForecastIconWrapper>
-        ) : (
-          <p>No forecast</p>
-        )}
-      </div>
+      <ReminderFlagRow>
+        <div>
+          forecast description: <strong>{forecastDescription}</strong>
+        </div>
+      </ReminderFlagRow>
+      <ReminderFlagRow>{forecastDate !== '' && <div>forecast date: {forecastDate}</div>}</ReminderFlagRow>
+      <ReminderFlagRow>
+        <div>
+          {forecastIcon !== '' ? (
+            <ForecastIconWrapper>
+              <img src={forecastIcon} width='50px' height='50px' />
+            </ForecastIconWrapper>
+          ) : (
+            <p>No forecast</p>
+          )}
+        </div>
+      </ReminderFlagRow>
     </ReminderListFlagWrapper>
   )
 }

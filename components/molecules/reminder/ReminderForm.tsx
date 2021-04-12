@@ -14,15 +14,11 @@ const clearInputs = (inputArray: any[]) => {
 
 const handleFormSubmit = (data: { id: number; title: string; description: string; date: string; city: string }, reminders: any[], dispatch: Dispatch<any>, type: string, inputArray: any[]) => {
   if (type === 'create') {
-    console.log(data)
     dispatch(addReminder({ id: reminders.length + 1, title: data.title, description: data.description, date: moment(data.date).format(moment.HTML5_FMT.DATETIME_LOCAL), city: data.city }))
     clearInputs(inputArray)
   } else if (type === 'update') {
-    console.log(data.id, data)
-    console.log('update form')
     dispatch(setReminder(data.id, data))
   }
-  //dispatch set reminder
 }
 
 const handleModalDrag = (e: React.DragEvent<HTMLElement>, setModalPosition: { (value: any): void; (arg0: { top: any; right: any }): void }) => {
@@ -38,6 +34,7 @@ const ReminderForm = ({ type, reminders, reminderFormInitialValues, isModalVisib
   const [inputDescription, setInputDescription] = useState<string>(reminderFormInitialValues.inputDescription)
   const [inputDate, setInputDate] = useState<string>(reminderFormInitialValues.inputDate)
   const [inputCity, setInputCity] = useState<string>(reminderFormInitialValues.inputCity)
+  const [isFormDisabled, setIsFormDisabled] = useState<boolean>(true)
 
   const dispatch = useDispatch()
 
@@ -48,6 +45,11 @@ const ReminderForm = ({ type, reminders, reminderFormInitialValues, isModalVisib
     setInputDate(reminderFormInitialValues.inputDate)
     setInputCity(reminderFormInitialValues.inputCity)
   }, [reminderFormInitialValues])
+
+  useEffect(() => {
+    if (!inputTitle || !inputDescription || !inputDate || !inputCity) setIsFormDisabled(true)
+    else setIsFormDisabled(false)
+  }, [inputTitle, inputDescription, inputDate, inputCity])
 
   return isModalVisible ? (
     <ReminderFormWrapper style={{ top: `${modalPosition.top}px`, left: `${modalPosition.left}px` }}>
@@ -82,7 +84,7 @@ const ReminderForm = ({ type, reminders, reminderFormInitialValues, isModalVisib
         <FormLabel label='City' />
         <FormInput id='city' name='city' placeholder='city' type='text' value={inputCity} onChange={(e: { target: { value: React.SetStateAction<string> } }) => setInputCity(e.target.value)} />
         <Button
-          style={{ maxWidth: '30em', border: '1px solid lightgrey', marginTop: '1em', cursor: 'pointer' }}
+          style={{ maxWidth: '30em', border: '1px solid lightgrey', marginTop: '1em', cursor: isFormDisabled ? 'not-allowed' : 'pointer' }}
           onClick={() =>
             handleFormSubmit({ id: inputId, title: inputTitle, description: inputDescription, date: inputDate, city: inputCity }, reminders, dispatch, type, [
               setInputTitle,
@@ -92,6 +94,7 @@ const ReminderForm = ({ type, reminders, reminderFormInitialValues, isModalVisib
             ])
           }
           children={<p>Submit</p>}
+          disabled={isFormDisabled}
         />
       </ReminderFormBody>
     </ReminderFormWrapper>

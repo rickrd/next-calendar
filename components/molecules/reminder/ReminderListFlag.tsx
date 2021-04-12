@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import moment, { HTML5_FMT } from 'moment'
+import React from 'react'
+import moment from 'moment'
 import styled from 'styled-components'
 import { ReminderListFlagWrapper } from '../../../styles/reminder/ReminderList'
-import doRequest from '../../../services/request'
-import { useSelector } from 'react-redux'
+import LocationIcon from '../../atoms/icons/LocationIcon'
 
 const ReminderListFlag = ({
   reminder: {
@@ -12,39 +11,44 @@ const ReminderListFlag = ({
     city,
     date,
     time,
-    forecastData: { forecastDescription, forecastDate, forecastIcon },
+    forecastData: { weatherData, forecastDescription, forecastDate, forecastIcon },
   },
   onClick,
 }) => {
+  console.log(weatherData)
   return (
     <ReminderListFlagWrapper onClick={onClick} style={{ cursor: 'pointer' }}>
       <ReminderFlagCol>
         <ReminderFlagRow>
-          <div style={{ fontSize: '21px', fontWeight: 'bold', marginRight: '1em' }}>{title}</div>
-          <div style={{ fontSize: '19px', fontWeight: 'bold', color: 'indianred' }}>{moment(time, 'HH:mm').format(HTML5_FMT.TIME)}</div>
+          <div style={{ fontSize: '21px', fontWeight: 'bold', marginRight: '1em', backgroundColor: '#000', color: '#fff' }}>{title}</div>
+          <div style={{ fontSize: '19px', fontWeight: 'bold', color: 'indianred' }}>{moment(time, 'HH:mm').format('LT')}</div>
         </ReminderFlagRow>
       </ReminderFlagCol>
       <ReminderFlagCol>
         <ReminderFlagRow>
-          <div style={{ fontSize: '21px', fontWeight: 'bold', marginRight: '1em' }}>{description}</div>
-          <div style={{ fontSize: '19px', fontWeight: 'bold', color: 'indianred' }}>{city}</div>
+          <div style={{ fontSize: '18px', marginRight: '1em' }}>{description}</div>
         </ReminderFlagRow>
       </ReminderFlagCol>
       <ReminderFlagRow>
-        <div>
-          forecast description: <strong>{forecastDescription}</strong>
+        <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#000' }}>
+          <LocationIcon />
+          {city}
         </div>
       </ReminderFlagRow>
-      <ReminderFlagRow>{forecastDate !== '' && <div>forecast date: {forecastDate}</div>}</ReminderFlagRow>
+      <ReminderFlagRow>
+        <div>
+          <h4 style={{ marginBottom: '0' }}>Forecast:</h4>
+          <strong>{forecastDescription}</strong>
+        </div>
+      </ReminderFlagRow>
+      <ReminderFlagRow>{forecastDate !== '' && <div>date: {forecastDate}</div>}</ReminderFlagRow>
       <ReminderFlagRow>
         <div>
           {forecastIcon !== '' ? (
             <ForecastIconWrapper>
               <img src={forecastIcon} width='50px' height='50px' />
             </ForecastIconWrapper>
-          ) : (
-            <p>No forecast</p>
-          )}
+          ) : null}
         </div>
       </ReminderFlagRow>
     </ReminderListFlagWrapper>

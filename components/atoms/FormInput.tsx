@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const FormInput = ({ id, name, type, placeholder = '', value, onChange }) => {
-  return <FormInputStyled id={id} name={name} type={type} placeholder={placeholder} value={value} onChange={onChange} />
+  return <FormInputStyled id={id} name={name} type={type} placeholder={placeholder} value={value} onChange={onChange} maxLength={30} />
 }
 
 const FormInputStyled = styled.input`

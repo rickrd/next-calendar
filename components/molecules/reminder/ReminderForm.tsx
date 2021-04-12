@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import moment, { HTML5_FMT } from 'moment'
-import { addReminder, setReminder, setReminderForecast, setReminderFormVisibility } from '../../../store/actions/reminders'
+import { addReminder, setReminder, setReminderFormVisibility } from '../../../store/actions/reminders'
 import { ReminderFormWrapper, ReminderFormBody } from '../../../styles/reminder/ReminderForm'
 import Button from '../../atoms/Button'
 import FormInput from '../../atoms/FormInput'
 import FormLabel from '../../atoms/FormLabel'
 import { Dispatch } from 'redux'
-import doRequest from '../../../services/request'
 import { getCityGeocode } from '../../../hooks/city'
-import { getWeatherByLatLon } from '../../../hooks/weather'
 import { parseForecast } from './utils/forecast'
 
 const clearInputs = (inputArray: any[]) => {
@@ -24,12 +22,15 @@ const handleFormSubmit = (
   inputArray: any[]
 ) => {
   let reminderForecast
+  let formattedCity: string = data.city
+
   ;(async () => {
     const citySearchResult = await getCityGeocode(data.city)
 
     if (citySearchResult.status === 'OK') {
       const forecastData = await parseForecast(citySearchResult, data)
       console.log(forecastData)
+      formattedCity = citySearchResult.results[0].formatted_address
       if (Object.keys(forecastData).length) {
         console.log('forecast is true')
         reminderForecast = forecastData
@@ -45,7 +46,7 @@ const handleFormSubmit = (
           description: data.description,
           date: data.date,
           time: data.time,
-          city: data.city,
+          city: formattedCity,
           forecastData: reminderForecast,
         })
       )
@@ -53,7 +54,7 @@ const handleFormSubmit = (
 
       clearInputs(inputArray)
     } else if (type === 'update') {
-      dispatch(setReminder(data.id, { ...data, forecastData: reminderForecast }))
+      dispatch(setReminder(data.id, { ...data, city: formattedCity, forecastData: reminderForecast }))
     }
   })()
 }

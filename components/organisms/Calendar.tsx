@@ -14,20 +14,9 @@ const Calendar = ({ reminders, selectedDate, isModalVisible }) => {
   const years = ['2015', '2016', '2017', '2018', '2019', '2020', '2021']
   const reminderFormType = useSelector((state: any) => state.reminders.reminderFormType)
 
-  const dispatch = useDispatch()
-
   return (
     <CalendarWrapper>
       <CalendarFlexRow>
-        <Button
-          style={{ border: '1px solid lightgrey', outline: 'none', cursor: 'pointer' }}
-          children={'New reminder'}
-          onClick={() => {
-            if (!isModalVisible) dispatch(setReminderFormVisibility(true))
-            dispatch(setReminderFormType('create'))
-            dispatch(setReminderFormInitialValues({ inputId: reminders.length + 1, inputTitle: '', inputDescription: '', inputDate: '', inputCity: '' }))
-          }}
-        ></Button>
         <CalendarHeaderYears years={years} />
       </CalendarFlexRow>
       <CalendarFlexRow>

@@ -6,9 +6,7 @@ import CalendarBody from '../molecules/calendar/CalendarBody/CalendarBody'
 import { CalendarWrapper, CalendarFlexRow, CalendarFlexCol } from '../../styles/calendar'
 import ReminderForm from '../molecules/reminder/ReminderForm'
 import CalendarDetail from '../molecules/calendar/CalendarDetail'
-import { setReminderFormInitialValues, setReminderFormType, setReminderFormVisibility } from '../../store/actions/reminders'
 import CalendarHeaderYears from '../molecules/calendar/CalendarHeader/CalendarHeaderYears'
-import Button from '../atoms/Button'
 
 const Calendar = ({ reminders, selectedDate, isModalVisible }) => {
   const years = ['2015', '2016', '2017', '2018', '2019', '2020', '2021']

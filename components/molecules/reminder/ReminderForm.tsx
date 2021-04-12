@@ -35,6 +35,8 @@ const handleFormSubmit = (
         console.log('forecast is true')
         reminderForecast = forecastData
       } else reminderForecast = { data: {}, forecastDescription: 'No forecast found', forecastDate: '', forecastIcon: '' }
+    } else if (citySearchResult.status === 'REQUEST_DENIED') {
+      reminderForecast = { data: {}, forecastDescription: 'You probably forgot to set API key.', forecastDate: '', forecastIcon: '' }
     } else reminderForecast = { data: {}, forecastDescription: 'No city found', forecastDate: '', forecastIcon: '' }
 
     if (type === 'create') {

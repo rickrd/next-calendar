@@ -15,7 +15,6 @@ const ReminderListFlag = ({
   },
   onClick,
 }) => {
-  console.log(weatherData)
   return (
     <ReminderListFlagWrapper onClick={onClick} style={{ cursor: 'pointer' }}>
       <ReminderFlagCol>
@@ -57,7 +56,6 @@ const ReminderListFlag = ({
 
 const ForecastIconWrapper = styled.div`
   background-color: #fff;
-  padding: 1em;
   max-width: fit-content;
   border-radius: 100%;
 `

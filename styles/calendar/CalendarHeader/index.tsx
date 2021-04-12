@@ -10,7 +10,7 @@ export const CalendarHeaderWrapper = styled.div`
 export const CalendarHeaderRow = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-around;
 `
 
 export const CalendarHeaderCellWrapper = styled.div``

@@ -3,19 +3,15 @@ import moment from 'moment'
 import { CalendarBodyWrapper } from '../../../../styles/calendar/CalendarBody'
 import { fillCalendar } from './utils'
 import CalendarBodyRow from './CalendarBodyRow'
-import { useSelector } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 
-const CalendarBody = () => {
-  const [selectedYear, setSelectedYear] = useState<any>('2021')
-  const [selectedMonth, setSelectedMonth] = useState<any>('04')
-  const [selectedDay, setSelectedDay] = useState<any>('10')
+const CalendarBody = ({ calendarDate: { year, month, day } }) => {
   const [calendar, setCalendar] = useState<any>([])
-
   const today = moment().format('YYYY-MM-DD')
 
   useEffect(() => {
-    fillCalendar(setCalendar, selectedYear, selectedMonth, selectedDay)
-  }, [selectedYear, selectedMonth, selectedDay])
+    fillCalendar(setCalendar, year, month, day)
+  }, [year, month, day])
 
   return (
     <CalendarBodyWrapper>
@@ -26,4 +22,10 @@ const CalendarBody = () => {
   )
 }
 
-export default CalendarBody
+const mapStateToProps = (state: any) => {
+  return {
+    calendarDate: state.calendar.date,
+  }
+}
+
+export default connect(mapStateToProps)(CalendarBody)

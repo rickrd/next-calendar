@@ -1,18 +1,30 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { setCalendarDate } from '../../../../store/actions/calendar'
 import { CalendarHeaderCell, CalendarHeaderCellWrapper, CalendarHeaderYearsWrapper } from '../../../../styles/calendar/CalendarHeader'
 
 const CalendarHeaderYears = ({ years }) => {
+  const calendarDate = useSelector((state: any) => state.calendar.date)
+  const dispatch = useDispatch()
+  console.log(calendarDate)
   return (
     <CalendarHeaderYearsWrapper>
-      <CalendarHeaderCell bold padding='1em'>{`<`}</CalendarHeaderCell>
       {years.map((year: string, index: number) => {
         return (
-          <CalendarHeaderCellWrapper key={index}>
-            <CalendarHeaderCell padding='1em'> {year}</CalendarHeaderCell>
+          <CalendarHeaderCellWrapper
+            key={index}
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              dispatch(setCalendarDate({ ...calendarDate, year: year }))
+              console.log({ ...calendarDate, year: year })
+            }}
+          >
+            <CalendarHeaderCell style={{ fontWeight: calendarDate.year === year ? 'bold' : 'normal' }} padding='1em'>
+              {year}
+            </CalendarHeaderCell>
           </CalendarHeaderCellWrapper>
         )
       })}
-      <CalendarHeaderCell bold padding='1em'>{`>`}</CalendarHeaderCell>
     </CalendarHeaderYearsWrapper>
   )
 }

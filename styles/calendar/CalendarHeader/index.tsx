@@ -24,3 +24,8 @@ export const CalendarHeaderYearsWrapper = styled.div`
   display: flex;
   flex-direction: row;
 `
+
+export const CalendarHeaderMonthWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import moment, { HTML5_FMT } from 'moment'
+
 import { addReminder, setReminder, setReminderFormVisibility } from '../../../store/actions/reminders'
 import { ReminderFormWrapper, ReminderFormBody } from '../../../styles/reminder/ReminderForm'
 import Button from '../../atoms/Button'
@@ -19,8 +20,10 @@ const handleFormSubmit = (
   reminders: any[],
   dispatch: Dispatch<any>,
   type: string,
-  inputArray: any[]
+  inputArray: any[],
+  setIsFormDisabled: any
 ) => {
+  setIsFormDisabled(true)
   let reminderForecast
   let formattedCity: string = data.city
 
@@ -52,8 +55,6 @@ const handleFormSubmit = (
           forecastData: reminderForecast,
         })
       )
-      ;(async () => {})()
-
       clearInputs(inputArray)
     } else if (type === 'update') {
       dispatch(setReminder(data.id, { ...data, city: formattedCity, forecastData: reminderForecast }))
@@ -136,13 +137,14 @@ const ReminderForm = ({ type, reminders, reminderFormInitialValues, isModalVisib
         <Button
           style={{ maxWidth: '30em', border: '1px solid lightgrey', marginTop: '1em', cursor: isFormDisabled ? 'not-allowed' : 'pointer' }}
           onClick={() =>
-            handleFormSubmit({ id: inputId, title: inputTitle, description: inputDescription, date: inputDate, time: inputTime, city: inputCity }, reminders, dispatch, type, [
-              setInputTitle,
-              setInputDescription,
-              setInputDate,
-              setInputTime,
-              setInputCity,
-            ])
+            handleFormSubmit(
+              { id: inputId, title: inputTitle, description: inputDescription, date: inputDate, time: inputTime, city: inputCity },
+              reminders,
+              dispatch,
+              type,
+              [setInputTitle, setInputDescription, setInputDate, setInputTime, setInputCity],
+              setIsFormDisabled
+            )
           }
           children={<p>Submit</p>}
           disabled={isFormDisabled}

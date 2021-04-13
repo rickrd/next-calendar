@@ -24,9 +24,9 @@ const CalendarBodyRow = ({ calendarRow, today }) => {
               }}
               onDoubleClick={() => dispatch(setReminderFormVisibility(true))}
             >
-              <span style={{ backgroundColor: day.date === moment(today).format('YYYY-MM-DD') ? 'indianred' : 'unset', padding: '0.4em 0.8em'}}>{day.label}</span>
+              <span style={{ backgroundColor: day.date === moment(today).format('YYYY-MM-DD') ? 'indianred' : 'unset', padding: '0.4em 0.8em' }}>{day.label}</span>
 
-              {filteredReminders.length ? <CalendarReminderList style={{ listStyle: 'none' }} childrens={filteredReminders} /> : null}
+              {filteredReminders.length ? <CalendarReminderList style={{ overFlowY: 'scroll', listStyle: 'none', maxHeight: '8em' }} childrens={filteredReminders} /> : null}
             </CalendarBodyCell>
           </CalendarBodyCellWrapper>
         )

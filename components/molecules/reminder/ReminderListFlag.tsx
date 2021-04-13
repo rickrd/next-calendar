@@ -35,12 +35,8 @@ const ReminderListFlag = ({
         </div>
       </ReminderFlagRow>
       <ReminderFlagRow>
-        <div>
-          <h4 style={{ marginBottom: '0' }}>Forecast:</h4>
           <strong>{forecastDescription}</strong>
-        </div>
       </ReminderFlagRow>
-      <ReminderFlagRow>{forecastDate !== '' && <div>date: {forecastDate}</div>}</ReminderFlagRow>
       <ReminderFlagRow>
         <div>
           {forecastIcon !== '' ? (

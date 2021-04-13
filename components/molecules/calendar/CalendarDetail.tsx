@@ -59,7 +59,7 @@ const ReminderListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-  max-height: 800px;
+  max-height: 340px;
   padding: 0 1em 0 0;
 `
 

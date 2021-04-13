@@ -69,7 +69,7 @@ const handleModalDrag = (e: React.DragEvent<HTMLElement>, setModalPosition: { (v
 const ReminderForm = ({ type, reminders, reminderFormInitialValues, isModalVisible }) => {
   if (type === '') return null
 
-  const [modalPosition, setModalPosition] = useState<any>({ top: '259', left: '582' })
+  const [modalPosition, setModalPosition] = useState<any>({ top: '259', left: '200' })
   const [inputId, setInputId] = useState<number>(reminderFormInitialValues.inputId)
   const [inputTitle, setInputTitle] = useState<string>(reminderFormInitialValues.inputTitle)
   const [inputDescription, setInputDescription] = useState<string>(reminderFormInitialValues.inputDescription)

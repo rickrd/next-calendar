@@ -1,5 +1,5 @@
 import { HYDRATE } from 'next-redux-wrapper'
-import { ADD_REMINDER, SET_REMINDER_FORM_VISIBILITY, SET_REMINDER_FORM_TYPE, SET_REMINDER_FORM_INITIAL_VALUES, SET_REMINDER, SET_REMINDER_FORECAST } from '../../actions'
+import { ADD_REMINDER, SET_REMINDER_FORM_VISIBILITY, SET_REMINDER_FORM_TYPE, SET_REMINDER_FORM_INITIAL_VALUES, SET_REMINDER, SET_REMINDER_FORECAST, REMOVE_REMINDER } from '../../actions'
 
 const initialState = {
   reminders: [],
@@ -23,7 +23,6 @@ const reducer = (state = initialState, action: { type?: any; payload?: any }) =>
       return { ...state, reminders: [action.payload, ...state.reminders] }
 
     case SET_REMINDER:
-      console.log(action.payload)
       return {
         ...state,
         reminders: state.reminders.map((reminder) => {
@@ -32,15 +31,24 @@ const reducer = (state = initialState, action: { type?: any; payload?: any }) =>
         }),
       }
 
+    case REMOVE_REMINDER:
+      return {
+        ...state,
+        reminders: state.reminders.filter((reminder) => {
+          return reminder.id !== action.payload
+        }),
+      }
+
     case SET_REMINDER_FORECAST:
       return {
         ...state,
         reminders: state.reminders.map((reminder) => {
-          if (reminder.id === action.payload.id) return {
-            ...reminder,
-            forecastData: action.payload.forecastData
-          }
-        })
+          if (reminder.id === action.payload.id)
+            return {
+              ...reminder,
+              forecastData: action.payload.forecastData,
+            }
+        }),
       }
 
     case SET_REMINDER_FORM_VISIBILITY:

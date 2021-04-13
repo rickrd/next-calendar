@@ -3,9 +3,12 @@ import moment from 'moment'
 import styled from 'styled-components'
 import { ReminderListFlagWrapper } from '../../../styles/reminder/ReminderList'
 import LocationIcon from '../../atoms/icons/LocationIcon'
+import { useDispatch } from 'react-redux'
+import { removeReminder } from '../../../store/actions/reminders'
 
 const ReminderListFlag = ({
   reminder: {
+    id,
     title,
     description,
     city,
@@ -15,8 +18,13 @@ const ReminderListFlag = ({
   },
   onClick,
 }) => {
+  const dispatch = useDispatch()
   return (
     <ReminderListFlagWrapper onClick={onClick} style={{ cursor: 'pointer' }}>
+      <ReminderRemove onClick={() => {
+        console.log(id)
+        dispatch(removeReminder(id))
+      }}>remove x</ReminderRemove>
       <ReminderFlagCol>
         <ReminderFlagRow>
           <div style={{ fontSize: '21px', fontWeight: 'bold', marginRight: '1em', backgroundColor: '#000', color: '#fff' }}>{title}</div>
@@ -35,7 +43,7 @@ const ReminderListFlag = ({
         </div>
       </ReminderFlagRow>
       <ReminderFlagRow>
-          <strong>{forecastDescription}</strong>
+        <strong>{forecastDescription}</strong>
       </ReminderFlagRow>
       <ReminderFlagRow>
         <div>
@@ -65,6 +73,12 @@ const ReminderFlagRow = styled.div`
 const ReminderFlagCol = styled.div`
   display: flex;
   flex-direction: column;
+`
+
+const ReminderRemove = styled.div`
+  position: absolute;
+  right: 0.5em;
+  top: 0;
 `
 
 export default ReminderListFlag

@@ -35,7 +35,7 @@ const CalendarDetail = ({ reminders, calendar, isModalVisible }) => {
             return (
               <ReminderListFlag
                 key={id}
-                reminder={{ title, description, city, date, time, forecastData }}
+                reminder={{ id, title, description, city, date, time, forecastData }}
                 onClick={() => {
                   console.log({ id, title, description, city, date })
                   dispatch(setReminderFormInitialValues({ inputId: id, inputTitle: title, inputDescription: description, inputCity: city, inputDate: date, inputTime: time }))

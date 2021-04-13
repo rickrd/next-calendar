@@ -5,4 +5,5 @@ export const ReminderListFlagWrapper = styled.div`
   border-radius: 2em;
   padding: 1em 0.5em;
   margin-bottom: 1em;
+  position: relative;
 `

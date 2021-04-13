@@ -14,7 +14,7 @@ const initialState = {
   },
 }
 
-const reducer = (state = initialState, action: { type: any; payload: any }) => {
+const reducer = (state = initialState, action: { type?: any; payload?: any }) => {
   switch (action.type) {
     case HYDRATE:
       return { ...state, ...action.payload }

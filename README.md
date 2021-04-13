@@ -5,7 +5,11 @@ The project was designed following the principles of Atomic Design. See [Atomic 
 
 ## Getting Started
 
-First, run the development server:
+First, create a .env file with this content:
+NEXT_PUBLIC_GOOGLE_KEY = your google key
+NEXT_PUBLIC_WEATHER_KEY = your openweather key
+
+Run the development server:
 
 ```bash
 yarn run dev

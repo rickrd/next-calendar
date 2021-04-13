@@ -6,8 +6,10 @@ The project was designed following the principles of Atomic Design. See [Atomic 
 ## Getting Started
 
 First, create a .env file with this content:
+```bash
 NEXT_PUBLIC_GOOGLE_KEY = your google key
 NEXT_PUBLIC_WEATHER_KEY = your openweather key
+```
 
 Run the development server:
 
